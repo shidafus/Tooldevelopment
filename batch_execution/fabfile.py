@@ -72,9 +72,8 @@ def rsync_get():
     rsync_project()
 
 
-# @runs_once
+@runs_once
 @task
 def go():
     execute(remote_sed_task)
     execute(check_file)
-
