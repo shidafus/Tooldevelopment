@@ -6,9 +6,4 @@ from config.settings import REDIS
 r = redis.Redis(host=REDIS.get('host'), port=REDIS.get('port'),
                 db=REDIS.get('database'), password=REDIS.get('password'))
 pattern = re.compile("^loginToken", re.I)
-data = [elem for elem in r.keys('*') if pattern.search(elem.decode('utf-8'))]
-<<<<<<< HEAD
-_ = [{print(res, end=': '), print(r.get(res))} for res in data]
-=======
-_ = [{print(res, end=': '), print(r.get(res))} for res in data]
->>>>>>> dev
+_ = [elem for elem in r.keys('*') if pattern.search(elem.decode('utf-8'))]
