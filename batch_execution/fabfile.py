@@ -4,7 +4,6 @@ import time
 
 from fabric.api import *
 from fabric.colors import *
-from fabric.context_managers import *
 from fabric.contrib.files import *
 from fabric.contrib.project import *
 
@@ -49,6 +48,7 @@ env.roledefs = {
 
 
 # @with_settings(warn_only=True)    也可以这么使用 但是个人觉得不好用
+@parallel(pool_size=5)
 def remote_sed_task():
     print(yellow("Start execution..."))
     with settings(warn_only=True):

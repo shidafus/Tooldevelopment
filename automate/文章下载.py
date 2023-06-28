@@ -17,10 +17,5 @@ def download_article(url):
         print("文章获取失败!")
 
 
-
-
-
 # 调用函数下载博客文章
-url = "https://www.cnblogs.com/Nephalem-262667641/p/17310765.html#4.1-re.match"
-
-
+urls = "https://www.cnblogs.com/Nephalem-262667641/p/17310765.html#4.1-re.match"
