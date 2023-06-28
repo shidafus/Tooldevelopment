@@ -36,7 +36,7 @@ env.passwords = {
 
 env.test_im_project_source = '/data/docker'  # 开发机项目主目录
 env.test_im_jar_source = f'/data/docker/api2/webapps/'  # 开发机项目jar包目录
-local_im_jar_path = r'D:\Ubuntu\publish\im'  # im jar包保存本地路径
+local_im_jar_path = r'/home/kali/Desktop/publish'  # im jar包保存本地路径
 env.deploy_im_project_source= f'/data/docker/{data}'
 env.deploy_im_jar_source = f'/data/docker/{data}/webapps/'  # 开发机项目jar包目录
 env.im_jar_packname = ''

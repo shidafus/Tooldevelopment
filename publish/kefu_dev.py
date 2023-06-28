@@ -28,7 +28,7 @@ env.passwords = {
 env.test_kf_109_project_test_source = '/data/docker/kefu'  # 开发机项目主目录
 env.test_kf_109_project_jar_source = '/data/docker/kefu/webapps/'  # 开发机项目jar包目录
 env.test_kf_109_project_jar_pack_name = 'kefuServer.jar'  # jar包名称
-local_kf_109_jar_path = r'D:\Ubuntu\publish\kf_109'  # 109 kf jar包保存本地路径
+local_kf_109_jar_path = r'/home/kali/Desktop/publish'  # 109 kf jar包保存本地路径
 
 env.deploy_kf_project_root = '/tmp/kefu'  # 生产环境项目的主目录
 env.deploy_kf_release_dir = '/tmp/kefu/webapps/'  # 生产机项目jar包目录
