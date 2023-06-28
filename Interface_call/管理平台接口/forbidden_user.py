@@ -1,7 +1,5 @@
 # -- coding:UTF-8 --
 
-import json
-import sys
 
 import requests
 
@@ -31,7 +29,8 @@ class IMUser:
             'Accept': 'application/json, text/plain, */*',
             'Accept-Language': 'zh',
             'request-startTime': '1678347631986',
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) each-chat/0.0.51 Chrome/87.0.4280.141 Electron/11.5.0 Safari/537.36',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) '
+                          'each-chat/0.0.51 Chrome/87.0.4280.141 Electron/11.5.0 Safari/537.36',
             'Client-Type': 'Pc',
             'Sec-Fetch-Site': 'cross-site',
             'Sec-Fetch-Mode': 'cors',
@@ -46,14 +45,14 @@ class IMUser:
         print(response.json()["data"]["oAuth"]["token"])
         return response.json()["data"]["oAuth"]["token"]
 
-    def do_lockuser(self, user_key, token):
+    def do_locker(self, user_key, tokens):
 
         json_data = {
             "lockReason": "该账号因涉嫌传播/暴力/非法营销等违法内容被执行封号,详情请阅读账号使用规范.",
             "toUserKey": user_key
         }
         headers = {
-            "accessToken": token,
+            "accessToken": tokens,
             'Accept': 'application/json, text/plain, */*',
             'Client-Type': 'Pc',
             'Accept-Language': 'zh',
@@ -69,13 +68,13 @@ class IMUser:
             print(user_key + " ok")
         return
 
-    def do_unlockuser(self, user_key, token):
+    def do_unlocker(self, user_key, tokens):
 
         json_data = {
             "toUserKey": user_key
         }
         headers = {
-            "accessToken": token,
+            "accessToken": tokens,
             'Accept': 'application/json, text/plain, */*',
             'Client-Type': 'Pc',
             'Accept-Language': 'zh',
