@@ -8,4 +8,3 @@ r = redis.Redis(host=REDIS.get('host'), port=REDIS.get('port'),
 pattern = re.compile("^loginToken", re.I)
 data = [elem for elem in r.keys('*') if pattern.search(elem.decode('utf-8'))]
 _ = [{print(res, end=': '), print(r.get(res))} for res in data]
-pattern = re.compile("^loginToken", re.I)
