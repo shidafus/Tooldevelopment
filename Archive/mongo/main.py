@@ -28,9 +28,9 @@ if __name__ == '__main__':
     show_jive(mongo_helper.get_connections())
 
     # 查看单个集合的列表字段
-    show_donkeys('tk_client_wait_log')
+    # show_donkeys('user')
 
-    # 更具上面给出的字段 进行查询数据
-    # 定义查询条件默认为空     $lt 小于  $lte 小于等于    $gt大于  $gte 大于等于  $ln  在之中   $nin 不在之中
-    filterer = {'username': {'$in': ['test111', 'test222']}}
-    show_all_dbs('tk_client_wait_log', filterer)
+    # # 更具上面给出的字段 进行查询数据
+    # # 定义查询条件默认为空     $lt 小于  $lte 小于等于    $gt大于  $gte 大于等于  $ln  在之中   $nin 不在之中
+    filterer = {'_id': '10170429' }
+    show_all_dbs('user', filterer)
