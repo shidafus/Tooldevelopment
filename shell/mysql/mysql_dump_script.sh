@@ -58,7 +58,7 @@ full_backup() {
 
 spatial_optimization() {
 	#找出需要删除的备份
-	find /mysqlbackup -maxdepth 1 -type d -mtime +31 -exec rm -rf {} \;
+	find /mysqlbackup/* -maxdepth 1 -type d -mtime +31 -exec rm -rf {} \;
 }
 
 
