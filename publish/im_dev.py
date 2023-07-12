@@ -8,7 +8,7 @@ test = input("你要发布什么？")
 tim = "test" + "-" + test
 pim = "prod" + "-" + test
 
-print(" api3   imserver   upload   push ")
+print(" api3   imserver   upload   push  manager")
 data = input("具体的服务？")
 
 
