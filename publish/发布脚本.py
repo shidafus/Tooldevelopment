@@ -1,8 +1,7 @@
 from fabric.api import *
 from fabric.colors import *
 from fabric.context_managers import *
-from fabric.contrib.console import confirm
-import time,sys
+import time
 
 env.hosts = ['192.168.11.130']
 env.user = 'root'
@@ -90,7 +89,4 @@ def go():
         else:
             print("你的输入有误!")
 
-
-if __name__ == '__main__':
-    go()
 
