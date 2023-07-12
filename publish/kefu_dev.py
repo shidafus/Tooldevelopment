@@ -43,7 +43,7 @@ pkf = "prod" + "-" + test
 @roles(tkf)
 def get_jar():
     print(yellow("Pull the jar package of kf..."))
-    local(f"del {local_kf_109_jar_path}\\{env.deploy_kf_project_jar_pack_name} ")
+    local(f"del {local_kf_109_jar_path}/{env.deploy_kf_project_jar_pack_name} ")
     # with settings(warn_only=True):
     get((env.test_kf_109_project_jar_source + env.test_kf_109_project_jar_pack_name), local_kf_109_jar_path)
     print(green("Download successfully ..."))
@@ -55,7 +55,7 @@ def put_jar():
     with settings(warn_only=True):
         with cd(env.deploy_kf_release_dir):
             run(f"mv {env.deploy_kf_project_jar_pack_name} {env.deploy_kf_project_jar_pack_name}.`date +%Y-%m-%d-%H-%M-%S`")
-            result = put((local_kf_109_jar_path + "\\" + env.test_kf_109_project_jar_pack_name),
+            result = put((local_kf_109_jar_path + "/" + env.test_kf_109_project_jar_pack_name),
                          env.deploy_kf_release_dir)
             if result.failed and print("put file Failed, Continue[Y/n]?"):
                 abort("Aborting file put task!")

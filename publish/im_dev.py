@@ -9,7 +9,7 @@ test = input("你要发布什么？")
 tim = "test" + "-" + test
 pim = "prod" + "-" + test
 
-print(" api3   imserver   upload   push ")
+print(" api3   imserver   upload   push  manager")
 data = input("具体的服务？")
 
 
@@ -54,7 +54,7 @@ elif data == "push":
 @roles(tim)
 def get_jar():
     print(yellow("Pull the jar package of im..."))
-    local(f"del {local_im_jar_path}\\* ")
+    local(f"rm -rf  {local_im_jar_path}/* ")
     # with settings(warn_only=True):
     get((env.test_im_jar_source + env.im_jar_packname), local_im_jar_path)
     print(green("Download successfully ..."))
@@ -66,7 +66,7 @@ def put_jar():
     with settings(warn_only=True):
         with cd(env.deploy_im_jar_source):
             run(f"mv {env.im_jar_packname} {env.im_jar_packname}.`date +%Y-%m-%d-%H-%M-%S`")
-            result = put((local_im_jar_path + "\\" + env.im_jar_packname),
+            result = put((local_im_jar_path + "/" + env.im_jar_packname),
                          env.deploy_im_jar_source)
             if result.failed and print("put file Failed, Continue[Y/n]?"):
                 abort("Aborting file put task!")
@@ -77,8 +77,8 @@ def put_jar():
                 run("docker-compose stop && docker-compose up -d")
                 print(green("Release success..."))
 
-
+@task
 def delpoy():
-    get_jar()
-    put_jar()
+    execute(get_jar)
+    execute(put_jar)
 
