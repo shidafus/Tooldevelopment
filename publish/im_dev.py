@@ -1,8 +1,7 @@
 from fabric.api import *
 from fabric.colors import *
 from fabric.context_managers import *
-from fabric.contrib.console import confirm
-import time, sys
+
 
 test = input("你要发布什么？")
 

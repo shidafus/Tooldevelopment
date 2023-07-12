@@ -1,8 +1,7 @@
 from fabric.api import *
 from fabric.colors import *
 from fabric.context_managers import *
-from fabric.contrib.console import confirm
-import time, sys
+
 
 env.roledefs = {
     'test-kf1': ['192.168.11.109'], 'prod-kf1': ['192.168.101.131'],
@@ -54,7 +53,8 @@ def put_jar():
     print(yellow("Start uploading to kf_131..."))
     with settings(warn_only=True):
         with cd(env.deploy_kf_release_dir):
-            run(f"mv {env.deploy_kf_project_jar_pack_name} {env.deploy_kf_project_jar_pack_name}.`date +%Y-%m-%d-%H-%M-%S`")
+            run(f"mv {env.deploy_kf_project_jar_pack_name} "
+                f"{env.deploy_kf_project_jar_pack_name}.`date +%Y-%m-%d-%H-%M-%S`")
             result = put((local_kf_109_jar_path + "/" + env.test_kf_109_project_jar_pack_name),
                          env.deploy_kf_release_dir)
             if result.failed and print("put file Failed, Continue[Y/n]?"):
@@ -62,11 +62,7 @@ def put_jar():
             # print("Restart kf...")
             # run(f"docker-composer -f {env.deploy_kf_project_root}/docker-compose.yml up -d")
 
-
+@task
 def delpoy():
     execute(get_jar)
     execute(put_jar)
-
-
-if __name__ == "__main__":
-    delpoy()
