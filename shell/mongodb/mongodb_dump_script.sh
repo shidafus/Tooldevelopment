@@ -29,11 +29,13 @@ collection_name=[]
 
 parameter_passing() {
 	# 检查是否有参数传递，如果有则覆盖默认值
-	while getopts ":d:u:p:" opt; do
+	while getopts ":f:u:p:d:t:" opt; do
 	  case $opt in
-	    d) backup_dir=$OPTARG;;
+	    f) backup_file=$OPTARG;;
 	    u) username=$OPTARG;;
 	    p) password=$OPTARG;;
+	    d) database_name=$OPTARG;;
+	    t) collection_name=$OPTARG;;
 	    \?) echo "Invalid option: -$OPTARG" >&2;;
 	  esac
 	done
