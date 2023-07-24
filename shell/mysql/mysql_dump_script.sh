@@ -27,25 +27,22 @@ password="root"
 database_name=mydatabase
 
 
-parameter_passing() {
-	# 检查是否有参数传递，如果有则覆盖默认值
-	while getopts ":d:u:p:" opt; do
-	  case $opt in
-	    d) backup_dir=$OPTARG;;
-	    u) username=$OPTARG;;
-	    p) password=$OPTARG;;
-	    \?) echo "Invalid option: -$OPTARG" >&2;;
-	  esac
-	done
-	echo "Backup directory: $backup_dir"
-	echo "MySQL user: $username"
-	echo "MySQL password: $password"
-	#如果文件夹不存在则创建
-	if [ ! -d $backup_dir ];
-	then
-	    mkdir -p $backup_dir;
-	fi
-}
+# 检查是否有参数传递，如果有则覆盖默认值
+while getopts "d:u:p:*" opt; do
+  case $opt in
+    d) backup_dir="$OPTARG";;
+    u) username="$OPTARG";;
+    p) password="$OPTARG";;
+    *) echo "未知参数";;
+  esac
+done
+echo "Backup directory: $backup_dir"
+echo "MySQL user: $username"
+echo "MySQL password: $password"
+#如果文件夹不存在则创建
+if [ ! -d $backup_dir ]; then
+    mkdir -p $backup_dir;
+fi
 
 backup_single_database() {
 	# 开始备份数据，单个数据库独立备份
@@ -72,6 +69,5 @@ spatial_optimization() {
 }
 
 
-parameter_passing;
 backup_single_database;
 spatial_optimization;

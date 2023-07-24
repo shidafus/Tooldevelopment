@@ -17,52 +17,45 @@ number=31
 dd=`date +%Y-%m-%d-%H-%M-%S`
 #备份保存路径
 backup_dir=/mongobackup/$dd
-#备份工具
-tool=mongodump
 #用户名
 username="admin"
 #密码
-password="123456"
+password="xqqwe123qwe123p0EW"
 #将要备份的数据库 ,一个数组
-collection_name=[]
+database_name="log"
 
 
-parameter_passing() {
-	# 检查是否有参数传递，如果有则覆盖默认值
-	while getopts ":f:u:p:d:t:" opt; do
-	  case $opt in
-	    f) backup_file=$OPTARG;;
-	    u) username=$OPTARG;;
-	    p) password=$OPTARG;;
-	    d) database_name=$OPTARG;;
-	    t) collection_name=$OPTARG;;
-	    \?) echo "Invalid option: -$OPTARG" >&2;;
-	  esac
-	done
-	echo "Backup directory: $backup_dir"
-	echo "Mongo user: $username"
-	echo "Mongo password: $password"
-	#如果文件夹不存在则创建
-	if [ ! -d $backup_dir ];
-	then
-	    mkdir -p $backup_dir;
-	fi
-}
+
+# 检查是否有参数传递，如果有则覆盖默认值
+while getopts ":u:p:d:*" opt; do
+	case $opt in
+	  u) username="$OPTARG";;
+	  p) password="$OPTARG";;
+	  d) database_name="$OPTARG";;
+	  *) echo "未知参数";;
+	esac
+done
+echo "Mongo user: $username"
+echo "Mongo password: $password"
+echo "Mongo database_name: $database_name"
+
+# 如果文件夹不存在则创建
+if [ ! -d $backup_dir ]; then
+	  mkdir -p $backup_dir;
+fi
+
 
 backup_single_collection() {
 	# 开始备份数据，单个数据库独立备份
-	echo -e "${red_color}----------本次进行全量单库for循环备份-----------$text_end"
-	for DB in $collection_name; do
-	    docker exec mongodb /bin/bash -c "$tool -u $username -p$password --authenticationDatabase admin --archive --db $DB" 1> $backup_dir/$dd-$DB.archive 2> /tmp/$dd-$DB.log;
-	    echo -e "${green_color}-----------${DB}数据库备份完毕-----------$text_end"
-	done
-	echo -e "${green_color}-----------全部备份完毕！-----------$text_end"
+	echo -e "${red_color}----------本次进行单库备份-----------$text_end"
+	docker exec mongodb /bin/bash -c "mongodump -u $username -p$password --authenticationDatabase admin --archive --db $database_name" 1> $backup_dir/$database_name.archive 2> /tmp/$dd-$database_name.log;
+	echo -e "${green_color}-----------${DB}数据库备份完毕-----------$text_end"
 }
 
 full_backup() {
 	# 备份所有数据到同一份文件中
 	echo -e "${red_color}-----------本次进行全量备份-----------$text_end"
-	docker exec mongodb /bin/bash -c "$tool -u $username -p$password  --authenticationDatabase admin --archive" 1> $backup_dir/$dd-all.archive 2> /tmp/$dd-$collection_name.log
+	docker exec mongodb /bin/bash -c "mongodump -u $username -p$password  --authenticationDatabase admin --archive" 1> $backup_dir/$dd-all.archive 2> /tmp/$dd-$collection_name.log
 	echo -e "${green_color}----------备份完毕！-----------$text_end"
 }
 
@@ -73,7 +66,5 @@ spatial_optimization() {
 	echo -e "${green_color}-----------过期数据清理完毕！-----------$text_end"
 }
 
-
-parameter_passing;
 backup_single_collection;
 spatial_optimization;

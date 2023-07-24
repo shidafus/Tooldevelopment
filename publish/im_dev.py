@@ -72,7 +72,7 @@ def put_jar():
             else:
                 print(green("Put file successfully ..."))
             with cd(env.deploy_im_project_source):
-                print("Restart kf...")
+                print("Restart IM...")
                 run("docker-compose stop && docker-compose up -d")
                 print(green("Release success..."))
 

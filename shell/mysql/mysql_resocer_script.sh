@@ -20,25 +20,22 @@ password="root"
 database_name="mydatabase"
 table_name="student"
 
-parameter_passing() {
-	# 检查是否有参数传递，如果有则覆盖默认值
-	while getopts ":f:u:p:d:t:" opt; do
-	  case $opt in
-	    f) backup_file=$OPTARG;;
-	    u) username=$OPTARG;;
-	    p) password=$OPTARG;;
-	    d) database_name=$OPTARG;;
-	    t) table_name=$OPTARG;;
-	    \?) echo "Invalid option: -$OPTARG" >&2;;
-	  esac
-	done
-
-	# 检查备份文件是否存在
-	if [ ! -f "$backup_file" ]; then
-	  echo "Backup file not found: $backup_file"
-	  exit 1
-	fi
-}
+# 检查是否有参数传递，如果有则覆盖默认值
+while getopts "f:u:p:d:t:*" opt; do
+  case $opt in
+    f) backup_file="$OPTARG";;
+    u) username="$OPTARG";;
+    p) password="$OPTARG";;
+    d) database_name="$OPTARG";;
+    t) table_name="$OPTARG";;
+    *) echo "未知参数";;
+  esac
+done
+# 检查备份文件是否存在
+if [ ! -f "$backup_file" ]; then
+  echo "Backup file not found: $backup_file"
+  exit 1
+fi
 
 restore_single_table_data() {
 	# 还原单表数据
@@ -69,6 +66,5 @@ Restore_a_database_in_full() {
 	echo -e "${green_color}----------恢复完毕！-----------${text_end}"
 }
 
-parameter_passing;
 # 功能函数调用,从下行开始
 restore_the_entire_library_data;
