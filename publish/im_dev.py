@@ -55,7 +55,7 @@ def get_jar():
     print(yellow("Pull the jar package of im..."))
     local(f"rm -rf  {local_im_jar_path}/* ")
     # with settings(warn_only=True):
-    get((env.test_im_jar_source + env.im_jar_packname), local_im_jar_path)
+    get((env.deploy_im_jar_source + env.im_jar_packname), local_im_jar_path)
     print(green("Download successfully ..."))
 
 
@@ -73,7 +73,7 @@ def put_jar():
                 print(green("Put file successfully ..."))
             with cd(env.deploy_im_project_source):
                 print("Restart IM...")
-                run("docker-compose stop && docker-compose up -d")
+                run("docker-compose down && docker-compose up -d")
                 print(green("Release success..."))
 
 @task
