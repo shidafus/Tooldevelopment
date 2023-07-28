@@ -62,7 +62,7 @@ full_backup() {
 spatial_optimization() {
 	#找出需要删除的备份
 	echo -e "${red_color}----------开始查询过期数据-----------$text_end"
-	find /mongobackup/* -maxdepth 1 -type d -mtime +31 -exec rm -rf {} \;
+	find /mongobackup/* -maxdepth 1 -type d -ctime +31 -exec rm -rf {} \;
 	echo -e "${green_color}-----------过期数据清理完毕！-----------$text_end"
 }
 

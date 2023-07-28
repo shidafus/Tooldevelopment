@@ -39,14 +39,14 @@ fi
 restore_single_table_data() {
 	# 还原单个集合的数据
 	echo -e "${red_color}-----------本次进行单集合数据恢复-----------${text_end}"
-	docker exec mongodb /bin/bash -c "mongorestore -u $username -p$password --archive  --db $database_name --collection  $collection_name" < $backup_file
+	docker exec mongodb /bin/bash -c "mongorestore -u $username -p$password --authenticationDatabase admin --archive  --db $database_name --collection  $collection_name" < $backup_file
 	echo -e "${green_color}-----------恢复完毕！-----------${text_end}"
 }
 
 restore_the_entire_library_data() {
 	# 还原单个数据库的数据
 	echo -e "${red_color}-----------本次进行单库据恢复-----------${text_end}"
-	docker exec mongodb /bin/bash -c "mongorestore -u $username -p$password --archive  --db $database_name" < $backup_file
+	docker exec mongodb /bin/bash -c "mongorestore -u $username -p$password --authenticationDatabase admin --archive  --db $database_name" < $backup_file
 	echo -e "${green_color}-----------恢复完毕！-----------${text_end}"
 }
 
@@ -54,7 +54,7 @@ restore_the_entire_library_data() {
 Restore_a_database_in_full() {
 	# 从全量数据中，还原一个数据库
 	echo -e "${red_color}----------本次进行全量中单库据恢复-----------${text_end}"
-	docker exec MySQL8 /bin/bash -c "mongorestore -u $username -p$password  --archive  --db $database_name" < $backup_file
+	docker exec MySQL8 /bin/bash -c "mongorestore -u $username -p$password  --authenticationDatabase admin --archive  --db $database_name" < $backup_file
 	echo -e "${green_color}----------恢复完毕！-----------${text_end}"
 }
 
