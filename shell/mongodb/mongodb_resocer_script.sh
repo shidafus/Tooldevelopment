@@ -12,20 +12,22 @@ green_color="\033[32m"
 text_end="\033[0m"
 
 # 定义默认值
-backup_file="/mongobackup/2023-07-03-15-00-33/2023-07-03-15-00-33-mydatabase.sql"
-username="admin"
-password="root"
-database_name="mydatabase"
-collection_name="student"
+backup_file=""
+username=""
+password=""
+database_name=""
+collection_name=""
+tip=""
 
 # 检查是否有参数传递，如果有则覆盖默认值
-while getopts "f:u:p:d:t:*" opt; do
+while getopts "f:u:p:d:c:t:*" opt; do
   case $opt in
     f) backup_file="$OPTARG";;
     u) username="$OPTARG";;
     p) password="$OPTARG";;
     d) database_name="$OPTARG";;
-    t) collection_name="$OPTARG";;
+    c) collection_name="$OPTARG";;
+    t) tip="$OPTARG";;
     *) echo "未知参数";;
   esac
 done
@@ -60,3 +62,22 @@ Restore_a_database_in_full() {
 
 # 功能函数调用,从下行开始
 restore_the_entire_library_data;
+
+
+case $tip in
+    assemble)
+      echo -e "${green_color}Mongo database_name: ${database_name}${text_end}"
+      echo -e "${green_color}Mongo database_name: ${collection_name}${text_end}"
+      restore_single_table_data;
+      ;;
+    singlelibrary)
+      echo -e "${green_color}Mongo database_name: ${database_name}${text_end}"
+      Restore_a_database_in_full;
+      ;;
+    fulllibrary)
+      echo -e "${green_color}Mongo database_name: ${database_name}${text_end}"
+      Restore_a_database_in_full;
+      ;;
+    *)
+      echo -e "${red_color}暂时无法确认你要恢复那些数据${text_end}"
+esac

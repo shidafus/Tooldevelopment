@@ -2,7 +2,7 @@
 #################################################################################################################
 ##   create_time    : 2023/6/30                                                                                ##
 ##   Author         : Ops-DaBao                                                                                ##
-##   Feature        : Backing up mongodb Data                                                                    ##
+##   Feature        : Backing up mongodb Data                                                                  ##
 ##   Usage          : When executing the script, you can pass parameters.                                      ##
 ##                    If you do not pass parameters, the default is used                                       ##
 ##################################################################################################################
@@ -22,22 +22,21 @@ username="admin"
 #密码
 password="xqqwe123qwe123p0EW"
 #将要备份的数据库 ,一个数组
-database_name="log"
+database_name=""
+tip=""
 
 
 
 # 检查是否有参数传递，如果有则覆盖默认值
-while getopts ":u:p:d:*" opt; do
+while getopts ":u:p:d:t:*" opt; do
 	case $opt in
 	  u) username="$OPTARG";;
 	  p) password="$OPTARG";;
 	  d) database_name="$OPTARG";;
+	  t) tip="$OPTARG";;
 	  *) echo "未知参数";;
 	esac
 done
-echo "Mongo user: $username"
-echo "Mongo password: $password"
-echo "Mongo database_name: $database_name"
 
 # 如果文件夹不存在则创建
 if [ ! -d $backup_dir ]; then
@@ -55,7 +54,7 @@ backup_single_collection() {
 full_backup() {
 	# 备份所有数据到同一份文件中
 	echo -e "${red_color}-----------本次进行全量备份-----------$text_end"
-	docker exec mongodb /bin/bash -c "mongodump -u $username -p$password  --authenticationDatabase admin --archive" 1> $backup_dir/$dd-all.archive 2> /tmp/$dd-$collection_name.log
+	docker exec mongodb /bin/bash -c "mongodump -u $username -p$password  --authenticationDatabase admin --archive" 1> $backup_dir/all.archive 2> /tmp/$dd-all.log
 	echo -e "${green_color}----------备份完毕！-----------$text_end"
 }
 
@@ -66,5 +65,18 @@ spatial_optimization() {
 	echo -e "${green_color}-----------过期数据清理完毕！-----------$text_end"
 }
 
-backup_single_collection;
-spatial_optimization;
+
+case $tip in
+    all)
+      echo -e "${green_color}Mongo database_name: ${database_name}${text_end}"
+      full_backup;
+      spatial_optimization;
+      ;;
+    single)
+      echo -e "${green_color}Mongo database_name: ${database_name}${text_end}"
+      backup_single_collection;
+      spatial_optimization;
+      ;;
+    *)
+      echo -e "${red_color}暂时无法确认你要备份那些数据${text_end}"
+esac
