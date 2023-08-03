@@ -1,10 +1,19 @@
 #!/bin/bash
+#################################################################################################################
+##   create_time    : 2023/8/3                                                                                 ##
+##   Author         : Ops-DaBao                                                                                ##
+##   Mail           : zjh13320020268@163.com                                                                   ##
+##   Feature        :  mongodb user                                                                            ##
+##   Usage          : When executing the script, you can pass parameters.                                      ##
+##                    If you do not pass parameters, the default is used                                       ##
+#################################################################################################################
+
 
 red_color="\033[31m"
 green_color="\033[32m"
 text_end="\033[0m"
 # MongoDB连接信息
-HOST="192.168.11.71"
+HOST=""
 longrange="no"
 crontainer="mongodb"
 # MongoDB的超级管理员信息

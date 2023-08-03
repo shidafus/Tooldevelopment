@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 # 设置时区并同步时间
 ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 if ! crontab -l |grep ntpdate &>/dev/null ; then
