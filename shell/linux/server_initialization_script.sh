@@ -50,8 +50,26 @@ net.core.netdev_max_backlog = 262144
 net.ipv4.tcp_fin_timeout = 20
 EOF
 
+# 应对SYN攻击
+cat >> /etc/sysctl.conf << EOF
+net.ipv4.tcp_synack_retries = 0
+net.ipv4.tcp_syn_retries = 1
+net.ipv4.tcp_max_syn_backlog = 20480
+net.ipv4.tcp_syncookies = 1
+net.ipv4.tcp_tw_reuse = 1
+net.ipv4.tcp_tw_recycle = 1
+net.ipv4.tcp_fin_timeout = 10
+fs.file-max = 819200
+net.core.somaxconn = 65536
+net.core.rmem_max = 1024123000
+net.core.wmem_max = 16777126
+net.core.netdev_max_backlog = 165536
+net.ipv4.ip_local_port_range = 10000 65535
+EOF
+
+
 # 减少SWAP使用
 echo "0" > /proc/sys/vm/swappiness
 
 # 安装系统性能分析工具及其他
-yum install gcc make autoconf vim sysstat net-tools iostat if
+yum install gcc make autoconf vim sysstat net-tools iostat if -y

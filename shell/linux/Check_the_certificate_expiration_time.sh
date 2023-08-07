@@ -1,3 +1,4 @@
+#!/bin/bash
 for line in $(cat domain.txt)
 do
         domain=$(echo ${line} | awk -F':' '{print $1}')

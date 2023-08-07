@@ -6,6 +6,7 @@
 ##   Feature        : Backing up mongodb Data                                                                  ##
 ##   Usage          : When executing the script, you can pass parameters.                                      ##
 ##                    If you do not pass parameters, the default is used                                       ##
+##   Help manual    : https://www.cnblogs.com/wuqinglong/p/mysqldump.html                                      ##
 #################################################################################################################
 # shellcheck disable=SC2034
 red_color="\033[31m"
