@@ -42,7 +42,7 @@ pkf = "prod" + "-" + test
 @roles(tkf)
 def get_jar():
     print(yellow("Pull the jar package of kf..."))
-    local(f"rm   {local_kf_109_jar_path}/* ")
+    local(f"rm -rf  {local_kf_109_jar_path}/* ")
     # with settings(warn_only=True):
     get((env.test_kf_109_project_jar_source + env.test_kf_109_project_jar_pack_name), local_kf_109_jar_path)
     print(green("Download successfully ..."))
