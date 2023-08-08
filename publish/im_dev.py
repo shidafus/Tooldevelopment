@@ -53,7 +53,7 @@ elif data == "push":
 @roles(tim)
 def get_jar():
     print(yellow("Pull the jar package of im..."))
-    local(f"rm -rf  {local_im_jar_path}/* ")
+    local(f"rm   {local_im_jar_path}/* ")
     # with settings(warn_only=True):
     get((env.deploy_im_jar_source + env.im_jar_packname), local_im_jar_path)
     print(green("Download successfully ..."))

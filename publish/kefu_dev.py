@@ -29,8 +29,8 @@ env.test_kf_109_project_jar_source = '/data/docker/kefu/webapps/'  # 开发机�
 env.test_kf_109_project_jar_pack_name = 'kefuServer.jar'  # jar包名称
 local_kf_109_jar_path = r'/tmp/publish'  # 109 kf jar包保存本地路径
 
-env.deploy_kf_project_root = '/tmp/kefu'  # 生产环境项目的主目录
-env.deploy_kf_release_dir = '/tmp/kefu/webapps/'  # 生产机项目jar包目录
+env.deploy_kf_project_root = '/data/docker/kefu'  # 生产环境项目的主目录
+env.deploy_kf_release_dir = '/data/docker/kefu/webapps/'  # 生产机项目jar包目录
 env.deploy_kf_project_jar_pack_name = 'kefuServer.jar'  # jar包名称
 
 test = input("你要发布什么？")
@@ -42,7 +42,7 @@ pkf = "prod" + "-" + test
 @roles(tkf)
 def get_jar():
     print(yellow("Pull the jar package of kf..."))
-    local(f"del {local_kf_109_jar_path}/{env.deploy_kf_project_jar_pack_name} ")
+    local(f"rm   {local_kf_109_jar_path}/* ")
     # with settings(warn_only=True):
     get((env.test_kf_109_project_jar_source + env.test_kf_109_project_jar_pack_name), local_kf_109_jar_path)
     print(green("Download successfully ..."))
