@@ -6,22 +6,24 @@ from fabric.context_managers import *
 env.roledefs = {
     'test-kf1': ['192.168.11.109'], 'prod-kf1': ['192.168.101.131'],
     'test-kf2': ['192.168.11.120'], 'prod-kf2': ['192.168.101.100'],
-    'test-im1': ['192.168.11.209'], 'prod-im1': ['192.168.101.130'],
-    'test-im2': ['192.168.11.100'], 'prod-im2': ['192.168.101.101'],
 }
 
+
 env.user = 'root'
-env.port = '22'
+
+port = {
+    '192.168.11.109': '22',
+    '192.168.11.120': '22',
+    '192.168.101.131': '2222',
+    '192.168.101.100': '2223',
+}
 
 env.passwords = {
     'root@192.168.11.109:22': '1qaz2WSX',
     'root@192.168.11.120:22': '1qaz2WSX',
-    'root@192.168.11.209:22': '1qaz2WSX',
-    'root@192.168.11.100:22': '1qaz2WSX',
     'root@192.168.101.131:22': 'Szyw!2022',
     'root@192.168.101.100:22': 'Szyw!2022',
-    'root@192.168.101.130:22': 'Szyw!2022',
-    'root@192.168.101.101:22': 'Szyw!2022'
+
 }
 
 env.test_kf_109_project_test_source = '/data/docker/kefu'  # 开发机项目主目录
@@ -41,6 +43,7 @@ pkf = "prod" + "-" + test
 
 @roles(tkf)
 def get_jar():
+    env.port=port[env.host_string]
     print(yellow("Pull the jar package of kf..."))
     local(f"rm -rf  {local_kf_109_jar_path}/* ")
     # with settings(warn_only=True):
@@ -50,6 +53,8 @@ def get_jar():
 
 @roles(pkf)
 def put_jar():
+    env.port = port[env.host_string]
+    env.host_string = '127.0.0.1'
     print(yellow("Start uploading to kf_131..."))
     with settings(warn_only=True):
         with cd(env.deploy_kf_release_dir):

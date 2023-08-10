@@ -13,22 +13,22 @@ data = input("具体的服务？")
 
 
 env.roledefs = {
-    'test-kf1': ['192.168.11.109'], 'prod-kf1': ['192.168.101.131'],
-    'test-kf2': ['192.168.11.120'], 'prod-kf2': ['192.168.101.100'],
     'test-im1': ['192.168.11.209'], 'prod-im1': ['192.168.101.130'],
     'test-im2': ['192.168.11.100'], 'prod-im2': ['192.168.101.101'],
 }
 
 env.user = 'root'
-env.port = '22'
+
+port = {
+    '192.168.11.209': '22',
+    '192.168.11.100': '22',
+    '192.168.101.130': '2224',
+    '192.168.101.101': '2225',
+}
 
 env.passwords = {
-    'root@192.168.11.109:22': '1qaz2WSX',
-    'root@192.168.11.120:22': '1qaz2WSX',
     'root@192.168.11.209:22': '1qaz2WSX',
     'root@192.168.11.100:22': '1qaz2WSX',
-    'root@192.168.101.131:22': 'Szyw!2022',
-    'root@192.168.101.100:22': 'Szyw!2022',
     'root@192.168.101.130:22': 'Szyw!2022',
     'root@192.168.101.101:22': 'Szyw!2022'
 }
@@ -52,6 +52,7 @@ elif data == "push":
 
 @roles(tim)
 def get_jar():
+    env.port=port[env.host_string]
     print(yellow("Pull the jar package of im..."))
     local(f"rm  -rf  {local_im_jar_path}/* ")
     # with settings(warn_only=True):
@@ -61,6 +62,8 @@ def get_jar():
 
 @roles(pim)
 def put_jar():
+    env.port=port[env.host_string]
+    env.host_string = '127.0.0.1'
     print(yellow("Start uploading to im..."))
     with settings(warn_only=True):
         with cd(env.deploy_im_jar_source):
