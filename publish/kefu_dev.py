@@ -56,7 +56,7 @@ def get_jar():
 def put_jar():
     env.port = port[env.host_string]
     env.host_string = '127.0.0.1'
-    print(env.passwords)
+    env.passwords = {'root@127.0.0.1:22': 'Szyw!2022'}
     print(yellow("Start uploading to kf_131..."))
     with settings(warn_only=True):
         with cd(env.deploy_kf_release_dir):
