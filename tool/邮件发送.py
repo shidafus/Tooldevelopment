@@ -52,7 +52,8 @@ class OutgoingMailInterface:
             server.quit()
 
             if not result:
-                print("邮件发送成功!")
+                for username in self.mail_recipient:
+                    print(username + "邮件发送成功!")
             else:
                 print("邮件发送失败!")
         except Exception as e:
@@ -68,4 +69,4 @@ if __name__ == "__main__":
     attachment_path = sys.argv[1] if len(sys.argv) > 1 else "/home/kali/list.txt"
 
     one = OutgoingMailInterface(from_addr, email_passwd, mail_recipient, email_subject, email_body)
-    one.send_mail(attachment_path)
+    one.send_mail()
