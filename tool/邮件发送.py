@@ -34,7 +34,7 @@ class OutgoingMailInterface:
 
         if attachment_path:
             filename = attachment_path.split("/")[-1]
-            with open(attachment_path, "rb") as attachment:
+            with open(attachment_path, mode="rb", encoding='utf-8') as attachment:
                 attach_part = MIMEApplication(attachment.read(), Name=filename)
                 attach_part["Content-Disposition"] = f'attachment; filename="{filename}"'
                 msg.attach(attach_part)
@@ -60,7 +60,7 @@ if __name__ == "__main__":
     mail_recipient = ["zjh13320020268@163.com"]
     email_subject = "运维告警通知"
     email_body = "黄河之水天上来"
-    attachment_path = "path/to/your/attachment.pdf"
+    attachment_path = "/home/kali/list.txt"
 
     one = OutgoingMailInterface(from_addr, email_passwd, mail_recipient, email_subject, email_body)
     one.send_mail(attachment_path)
