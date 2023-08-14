@@ -1,3 +1,4 @@
+import base64
 import os
 import smtplib
 import sys
@@ -37,10 +38,11 @@ class OutgoingMailInterface:
         if attachment_path:
             filename = os.path.basename(attachment_path)
             with open(attachment_path, "rb") as attachment:
-                attach_part = MIMEApplication(attachment.read(), Name=filename)
+                attachment_data = attachment.read()
+                attachment_encoded = base64.b64encode(attachment_data).decode("utf-8")
+                attach_part = MIMEApplication(attachment_encoded, Name=filename)
                 attach_part["Content-Disposition"] = f'attachment; filename="{filename}"'
                 msg.attach(attach_part)
-                print(msg)
 
         try:
             server = smtplib.SMTP(self.fixed_information["host"], self.fixed_information["port"])
