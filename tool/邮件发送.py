@@ -1,4 +1,6 @@
+import os
 import smtplib
+import sys
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
@@ -33,11 +35,12 @@ class OutgoingMailInterface:
         msg['subject'] = self.message['主题']
 
         if attachment_path:
-            filename = attachment_path.split("/")[-1]
-            with open(attachment_path, mode="rb", encoding='utf-8') as attachment:
+            filename = os.path.basename(attachment_path)
+            with open(attachment_path, "rb") as attachment:
                 attach_part = MIMEApplication(attachment.read(), Name=filename)
                 attach_part["Content-Disposition"] = f'attachment; filename="{filename}"'
                 msg.attach(attach_part)
+                print(msg)
 
         try:
             server = smtplib.SMTP(self.fixed_information["host"], self.fixed_information["port"])
@@ -60,7 +63,7 @@ if __name__ == "__main__":
     mail_recipient = ["zjh13320020268@163.com"]
     email_subject = "运维告警通知"
     email_body = "黄河之水天上来"
-    attachment_path = "/home/kali/list.txt"
+    attachment_path = sys.argv[1] if len(sys.argv) > 1 else "/home/kali/list.txt"
 
     one = OutgoingMailInterface(from_addr, email_passwd, mail_recipient, email_subject, email_body)
     one.send_mail(attachment_path)
